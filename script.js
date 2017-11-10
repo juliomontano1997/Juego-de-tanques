@@ -28,9 +28,17 @@ function proyectil()
 
 }
 
+const delay = 5000;
 
-
-
+function inicio(){
+    const worker = new Worker('worker.js');
+    //envia la informacion al worker.js
+    worker.postMessage(delay);
+    //recibe la informacion del worker.js
+    worker.onmessage = e => {
+        console.log(`Worker says: "${e.data}"`);
+    };
+}
 /*
 
 
