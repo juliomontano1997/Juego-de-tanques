@@ -1,29 +1,4 @@
 
-var cnv, ctx, pos_x = 0, img, fondo;
-
-function anim() {
-    ctx.clearRect(0, 0, 600, 200);
-    ctx.drawImage(fondo,0, 0);
-    ctx.drawImage(img, pos_x, 0);
-    pos_x += 1;
-    setTimeout(anim, 25);
-}
-
-function play1()
-{
-    img = new Image();
-    fondo = new Image();
-    img.src = 'imagenes/enemigo2.png';
-    fondo.src = "imagenes/fondo.jpg";
-
-    cnv = document.getElementById('lienzo');
-    ctx = cnv.getContext('2d');
-    // iniciar la animación
-    anim();
-}
-
-
-
 
 function Objetos_animados(x,y,dir_imagen)
 {
@@ -35,39 +10,87 @@ function Objetos_animados(x,y,dir_imagen)
     this.mover = function (direccion)
     {
         console.log("moviendome"+direccion);
-        if(direccion==="derecha")
+
+        if(direccion===39)
         {
-            this.pos_x++;
+            this.pos_x+= 40;
         }
-        else if(direccion==="izquierda")
+        else if(direccion===37)
         {
-            this.pos_x--;
+            this.pos_x-= 40;
         }
-        else if(direccion==="arriba")
+        else if(direccion===38)
         {
-            this.pos_y--;
+            this.pos_y-=40;
         }
-        else
+        else if (direccion === 40)
         {
-            this.pos_y++;
+            this.pos_y+=40;
         }
     };
 }
 
-window.onload = function() {
-    document.onkeyup = muestraInformacion;
-    document.onkeypress = muestraInformacion;
-    document.onkeydown = muestraInformacion;
-};
 
-function muestraInformacion(elEvento)
+
+
+
+
+function jugar()
 {
-    var evento = window.event || elEvento;
-    var mensaje = "Tipo de evento: " + evento.type + "<br>" +
-        "Propiedad keyCode: " + evento.keyCode + "<br>" +
-        "Propiedad charCode: " + evento.charCode + "<br>" +
-        "Carácter pulsado: " + String.fromCharCode(evento.charCode);
+    var fondo = new Image();
+    fondo.src = "imagenes/fondo.jpg";
+    var cnv, ctx;
+    cnv = document.getElementById('lienzo');
+    ctx = cnv.getContext('2d');
+
+
+    document.onkeydown = moverJugador;
+    var jugador = new Objetos_animados(300, 300, "imagenes/enemigo1.png");
+
+
+    function anim() //Actualizar pantalla,  depues recibe una lista de los objetos
+    {
+        ctx.clearRect(0, 0, 600, 200);
+        ctx.drawImage(fondo,0, 0);
+        ctx.drawImage(jugador.imagen, jugador.pos_x, jugador.pos_y );
+//        setTimeout(anim, 25);
+    }
+
+    function  moverJugador(tecla)
+    {
+        jugador.mover(tecla.keyCode);
+        anim();
+
+    }
+    anim();
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ---------------------------------------------
+
+
+
 
 /*
 
