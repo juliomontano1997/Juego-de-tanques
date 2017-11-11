@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fe086de3-8283-4929-aaf9-27316fdfdf4e" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/imagenes/enemigo1.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/imagenes/enemigo2.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/imagenes/fondo.jpg" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/script.js" afterPath="$PROJECT_DIR$/script.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -185,7 +180,7 @@
       <workItem from="1510340797891" duration="400000" />
       <workItem from="1510341242304" duration="23314000" />
       <workItem from="1510416301528" duration="2078000" />
-      <workItem from="1510422237366" duration="515000" />
+      <workItem from="1510422237366" duration="526000" />
     </task>
     <task id="LOCAL-00001" summary="cambio 1">
       <created>1510347379162</created>
@@ -201,11 +196,18 @@
       <option name="project" value="LOCAL" />
       <updated>1510347387250</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="cambio 1">
+      <created>1510422767624</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1510422767624</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="26307000" />
+    <option name="totallyTimeSpent" value="26318000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="784" extended-state="6" />
