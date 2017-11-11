@@ -1,10 +1,4 @@
 
-
-
-
-
-
-
 var cnv, ctx, pos_x = 0, img, fondo;
 
 function anim() {
