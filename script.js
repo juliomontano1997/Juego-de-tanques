@@ -1,3 +1,36 @@
+
+
+
+
+
+
+
+var cnv, ctx, pos_x = 0, img, fondo;
+
+function anim() {
+    ctx.clearRect(0, 0, 600, 200);
+    ctx.drawImage(fondo,0, 0);
+    ctx.drawImage(img, pos_x, 0);
+    pos_x += 1;
+    setTimeout(anim, 25);
+}
+
+function play1()
+{
+    img = new Image();
+    fondo = new Image();
+    img.src = 'imagenes/enemigo2.png';
+    fondo.src = "imagenes/fondo.jpg";
+
+    cnv = document.getElementById('lienzo');
+    ctx = cnv.getContext('2d');
+    // iniciar la animación
+    anim();
+}
+
+
+
+
 function Objetos_animados(x,y,dir_imagen)
 {
     this.imagen = new Image();
