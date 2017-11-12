@@ -1,9 +1,8 @@
 
 function jugar()
 {
-
-
     var objetos_graf = [];
+    lista_objetos_activos=[];
     function crearBordes()
     {
         for(i=0; i<15; i++)
@@ -13,7 +12,6 @@ function jugar()
             objetos_graf.push(m11);
             objetos_graf.push(m21);
         }
-
         for(i=1; i<14; i++)
         {
             var mi = i*40;
@@ -23,47 +21,78 @@ function jugar()
             objetos_graf.push(m1);
             objetos_graf.push(m2);
         }
-
     }
 
+    function espacioLibre (pos_x, pos_y, objetos)
+    {
+        var cantidad = objetos.length;
+        for(i=0; i<cantidad; i++)
+        {
+            if(pos_x === objetos[i].pos_x && pos_y===objetos[i].pos_y)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
 
     function crearMuros()
     {
-        for(i=0; i<10; i++)
+        for(i=0; i<20; i++)
         {
-            var m2 = new Muro(Math.random(40,560)/40,Math.random(40,560)/40, "imagenes/pared.jpg", 3);
-            objetos_graf.push();
+            var x = Math.trunc(Math.random()*(14-1)+1)*40;
+            var y = Math.trunc(Math.random()*(14-1)+1)*40;
+            if(espacioLibre(x, y, objetos_graf))
+            {
+                var m2 = new Muro(x,y,"imagenes/pared.jpg",3);
+                objetos_graf.push(m2);
+                lista_objetos_activos.push(m2);
+            }
         }
     }
 
 
+    function crearEnemigos()
+    {
+        for(i=0; i<10; i++)
+        {
+            var x = Math.trunc(Math.random()*(14-1)+1);
+            var y = Math.trunc(Math.random()*(14-1)+1);
+
+            if(espacioLibre(x, y, objetos_graf))
+            {
+                var m2 = new Muro(x,y,"imagenes/pared.jpg",3);
+                objetos_graf.push(m2);
+                lista_objetos_activos.push(m2);
+            }
+        }
+    }
+
+
+
+
+    // -------------------  Funciones principales -------------------------
+
+
     var fondo = new Image();
     fondo.src = "imagenes/fondo.jpg";
-    var cnv, ctx;
+    var cnv;
+    var ctx;
     cnv = document.getElementById('lienzo');
     ctx = cnv.getContext('2d');
-    document.onkeydown = moverJugador;
 
+    document.onkeydown = moverJugador;
+    crearMuros();
+    crearBordes();
 
     var jugador = new Aliado(40, 40, "imagenes/enemigo1.png");
+    lista_objetos_activos.push(jugador);
+    objetos_graf.push(jugador);
 
 
-
-
-
-
-
-    lista_objetos_activos.push(jugador);  // aliado, enemigo, objetvos, muros,balas
-
-    objeto1.push(jugador);
-
-    var p1 =
-
-    objetos_graf.push(p1);
-
-
-    function anim(objetos) //Actualizar pantalla,  depues recibe una lista de los objetos
+    function anim(objetos) //Actualizar pantalla
     {
+        console.log(objetos);
         ctx.clearRect(0, 0, 600, 600);
         ctx.drawImage(fondo,0, 0);
         var tam = objetos.length;
@@ -73,11 +102,9 @@ function jugar()
         }
         //setTimeout(anim, 25);
     }
-
     function  moverJugador(tecla)
     {
-        objetos_graf[56].mover(tecla.keyCode, objetos_graf);
-        console.log(objetos_graf1[0].pos_x);
+        jugador.mover(tecla.keyCode, objetos_graf);
         anim(objetos_graf);
     }
     anim(objetos_graf);
