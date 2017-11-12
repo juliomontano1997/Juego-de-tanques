@@ -1,4 +1,92 @@
 
+function jugar()
+{
+
+
+    var objetos_graf = [];
+    function crearBordes()
+    {
+        for(i=0; i<15; i++)
+        {
+            var m11 = new Borde(i*40,0, "imagenes/pared.jpg");
+            var m21 = new Borde(i*40,560, "imagenes/pared.jpg");
+            objetos_graf.push(m11);
+            objetos_graf.push(m21);
+        }
+
+        for(i=1; i<14; i++)
+        {
+            var mi = i*40;
+            var m1 = new Borde(0, mi, "imagenes/pared.jpg");
+            var m2 = new Borde(560, mi, "imagenes/pared.jpg");
+
+            objetos_graf.push(m1);
+            objetos_graf.push(m2);
+        }
+
+    }
+
+
+    function crearMuros()
+    {
+        for(i=0; i<10; i++)
+        {
+            var m2 = new Muro(Math.random(40,560)/40,Math.random(40,560)/40, "imagenes/pared.jpg", 3);
+            objetos_graf.push();
+        }
+    }
+
+
+    var fondo = new Image();
+    fondo.src = "imagenes/fondo.jpg";
+    var cnv, ctx;
+    cnv = document.getElementById('lienzo');
+    ctx = cnv.getContext('2d');
+    document.onkeydown = moverJugador;
+
+
+    var jugador = new Aliado(40, 40, "imagenes/enemigo1.png");
+
+
+
+
+
+
+
+    lista_objetos_activos.push(jugador);  // aliado, enemigo, objetvos, muros,balas
+
+    objeto1.push(jugador);
+
+    var p1 =
+
+    objetos_graf.push(p1);
+
+
+    function anim(objetos) //Actualizar pantalla,  depues recibe una lista de los objetos
+    {
+        ctx.clearRect(0, 0, 600, 600);
+        ctx.drawImage(fondo,0, 0);
+        var tam = objetos.length;
+        for(i=0; i<tam; i++)
+        {
+            ctx.drawImage(objetos[i].imagen, objetos[i].pos_x, objetos[i].pos_y );
+        }
+        //setTimeout(anim, 25);
+    }
+
+    function  moverJugador(tecla)
+    {
+        objetos_graf[56].mover(tecla.keyCode, objetos_graf);
+        console.log(objetos_graf1[0].pos_x);
+        anim(objetos_graf);
+    }
+    anim(objetos_graf);
+}
+
+
+
+
+
 
 function Objetos_animados(x,y,dir_imagen)
 {
@@ -7,25 +95,51 @@ function Objetos_animados(x,y,dir_imagen)
     this.pos_x= x;
     this.pos_y= y;
 
-    this.mover = function (direccion)
+
+    this.especioLibre = function (pos_x, pos_y, objetos)
+    {
+        var cantidad = objetos.length;
+        for(i=0; i<cantidad; i++)
+        {
+            if(pos_x === objetos[i].pos_x && pos_y===objetos[i].pos_y)
+            {
+                return false;
+            }
+        }
+        return true;
+    };
+
+    this.mover = function (direccion, objetos)
     {
         console.log("moviendome"+direccion);
-
         if(direccion===39)
         {
-            this.pos_x+= 40;
+            if(this.pos_x<520 && this.especioLibre(this.pos_x+40, this.pos_y, objetos))
+            {
+                this.pos_x+= 40;
+            }
         }
-        else if(direccion===37)
+        else if(direccion===37 )
         {
-            this.pos_x-= 40;
+            if(this.pos_x>40 && this.especioLibre(this.pos_x-40, this.pos_y, objetos))
+            {
+                this.pos_x-= 40;
+            }
         }
         else if(direccion===38)
         {
-            this.pos_y-=40;
+            if(this.pos_y>40 && this.especioLibre(this.pos_x, this.pos_y-40, objetos))
+            {
+                this.pos_y-=40;
+            }
+
         }
         else if (direccion === 40)
         {
-            this.pos_y+=40;
+            if(this.pos_y<520 && this.especioLibre(this.pos_x, this.pos_y+40, objetos))
+            {
+                this.pos_y+=40;
+            }
         }
     };
 }
@@ -34,45 +148,51 @@ function Objetos_animados(x,y,dir_imagen)
 
 
 
-
-function jugar()
+function Tanque(x,y,dir_imagen,vida)
 {
-    var fondo = new Image();
-    fondo.src = "imagenes/fondo.jpg";
-    var cnv, ctx;
-    cnv = document.getElementById('lienzo');
-    ctx = cnv.getContext('2d');
-
-
-    document.onkeydown = moverJugador;
-    var jugador = new Objetos_animados(300, 300, "imagenes/enemigo1.png");
-
-
-    function anim() //Actualizar pantalla,  depues recibe una lista de los objetos
+    Objetos_animados.call(this, x,y,dir_imagen);
+    this.vida=vida;
+    this.disparar = function ()
     {
-        ctx.clearRect(0, 0, 600, 200);
-        ctx.drawImage(fondo,0, 0);
-        ctx.drawImage(jugador.imagen, jugador.pos_x, jugador.pos_y );
-//        setTimeout(anim, 25);
+        // aqui lanza un disparo
     }
-
-    function  moverJugador(tecla)
-    {
-        jugador.mover(tecla.keyCode);
-        anim();
-
-    }
-    anim();
 }
 
+function Enemigo(x,y,dir_imagen)
+{
+    Tanque.call(this, x,y,dir_imagen,1);
+    // se pueden ubicar el tanque aliado ya sea por un metodo o por una variable global.
+}
 
+function Aliado (x,y,dir_imagen)
+{
+    Tanque.call(this, x,y,dir_imagen,3);
+}
 
+function Proyectil(x,y,dir_imagen)
+{
+    Objetos_animados.call(this, x,y,dir_imagen);
+}
 
+function Objetos_inanimados(x,y,imagen)
+{
+    this.pos_x=x;
+    this.pos_y=y;
+    this.imagen = new Image();
+    this.imagen.src = imagen;
+}
 
+function Muro(x,y, imagen, vida)
+{
+    Objetos_inanimados.call(this, x,y, imagen);
+    this.resistencia = 3;
+}
 
+function Borde(x,  y , imagen)
+{
+    Objetos_inanimados.call(this, x,y, imagen);
 
-
-
+}
 
 
 
