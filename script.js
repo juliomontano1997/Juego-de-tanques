@@ -2,7 +2,8 @@
 function jugar()
 {
     var objetos_graf = [];
-    lista_objetos_activos=[];
+    var lista_objetos_activos=[];
+    var enemigos = [];
     function crearBordes()
     {
         for(i=0; i<15; i++)
@@ -38,15 +39,37 @@ function jugar()
 
     function crearMuros()
     {
-        for(i=0; i<20; i++)
+        var contador = 20;
+
+        while (contador>0)
         {
             var x = Math.trunc(Math.random()*(14-1)+1)*40;
             var y = Math.trunc(Math.random()*(14-1)+1)*40;
             if(espacioLibre(x, y, objetos_graf))
             {
-                var m2 = new Muro(x,y,"imagenes/pared.jpg",3);
-                objetos_graf.push(m2);
-                lista_objetos_activos.push(m2);
+                var nuevo = new Muro(x,y,"imagenes/pared.jpg",3);
+                objetos_graf.push(nuevo);
+                lista_objetos_activos.push(nuevo);
+                contador--;
+            }
+        }
+    }
+
+    function crearObjetivos()
+    {
+        var contador =5;
+
+        while (contador>0)
+        {
+            var x = Math.trunc(Math.random()*(14-1)+1)*40;
+            var y = Math.trunc(Math.random()*(14-1)+1)*40;
+
+            if(espacioLibre(x, y, objetos_graf))
+            {
+                var nuevo = new Objetivo(x,y,"imagenes/objetivo.png",3);
+                objetos_graf.push(nuevo);
+                lista_objetos_activos.push(nuevo);
+                contador--;
             }
         }
     }
@@ -56,14 +79,18 @@ function jugar()
     {
         for(i=0; i<10; i++)
         {
-            var x = Math.trunc(Math.random()*(14-1)+1);
-            var y = Math.trunc(Math.random()*(14-1)+1);
-
+            var x = Math.trunc(Math.random()*(14-1)+1)*40;
+            var y = Math.trunc(Math.random()*(14-1)+1)*40;
             if(espacioLibre(x, y, objetos_graf))
             {
-                var m2 = new Muro(x,y,"imagenes/pared.jpg",3);
-                objetos_graf.push(m2);
-                lista_objetos_activos.push(m2);
+                console.log("Creoo un objetivo");
+                var nuevo = new Enemigo(x,y,"imagenes/pared.jpg",1);
+                objetos_graf.push(nuevo);
+                lista_objetos_activos.push(nuevo);
+                enemigos.push(nuevo);
+            }
+            else{
+                i--;
             }
         }
     }
@@ -84,6 +111,7 @@ function jugar()
     document.onkeydown = moverJugador;
     crearMuros();
     crearBordes();
+    crearObjetivos();
 
     var jugador = new Aliado(40, 40, "imagenes/enemigo1.png");
     lista_objetos_activos.push(jugador);
@@ -212,7 +240,7 @@ function Objetos_inanimados(x,y,imagen)
 function Muro(x,y, imagen, vida)
 {
     Objetos_inanimados.call(this, x,y, imagen);
-    this.resistencia = 3;
+    this.resistencia = 2;
 }
 
 function Borde(x,  y , imagen)
@@ -221,6 +249,11 @@ function Borde(x,  y , imagen)
 
 }
 
+function Objetivo(x,  y , imagen)
+{
+    Objetos_inanimados.call(this, x,y, imagen);
+    this.resistencia = 3;
+}
 
 
 

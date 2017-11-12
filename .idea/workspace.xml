@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fe086de3-8283-4929-aaf9-27316fdfdf4e" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/imagenes/pared.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/imagenes/calavera.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/imagenes/objetivo.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/script.js" afterPath="$PROJECT_DIR$/script.js" />
     </list>
@@ -21,7 +22,7 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="663">
+            <state relative-caret-position="0">
               <caret line="39" column="24" lean-forward="false" selection-start-line="39" selection-start-column="24" selection-end-line="39" selection-end-column="24" />
               <folding />
             </state>
@@ -31,8 +32,8 @@
       <file leaf-file-name="script.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/script.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="42" column="23" lean-forward="false" selection-start-line="42" selection-start-column="23" selection-end-line="42" selection-end-column="23" />
+            <state relative-caret-position="266">
+              <caret line="59" column="23" lean-forward="false" selection-start-line="59" selection-start-column="23" selection-end-line="59" selection-end-column="23" />
               <folding>
                 <element signature="n#!!block;n#espacioLibre#0;n#!!block;n#jugar#0" expanded="false" />
               </folding>
@@ -183,7 +184,7 @@
       <updated>1510340795202</updated>
       <workItem from="1510340797891" duration="400000" />
       <workItem from="1510341242304" duration="5520000" />
-      <workItem from="1510451058492" duration="2656000" />
+      <workItem from="1510451058492" duration="5571000" />
     </task>
     <task id="LOCAL-00001" summary="cambio 1">
       <created>1510347379162</created>
@@ -220,11 +221,18 @@
       <option name="project" value="LOCAL" />
       <updated>1510451351622</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary=" se agrego una imagen">
+      <created>1510453745618</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1510453745618</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="24315000" />
+    <option name="totallyTimeSpent" value="27230000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="784" extended-state="6" />
@@ -265,7 +273,8 @@
     <MESSAGE value="cambio 3" />
     <MESSAGE value="cambio 4" />
     <MESSAGE value="cambio, ya pega con el muro" />
-    <option name="LAST_COMMIT_MESSAGE" value="cambio, ya pega con el muro" />
+    <MESSAGE value=" se agrego una imagen" />
+    <option name="LAST_COMMIT_MESSAGE" value=" se agrego una imagen" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -442,16 +451,26 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="663">
+        <state relative-caret-position="0">
           <caret line="39" column="24" lean-forward="false" selection-start-line="39" selection-start-column="24" selection-end-line="39" selection-end-column="24" />
           <folding />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/imagenes/objetivosjpg.jpg">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/imagenes/objetivo.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/script.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="42" column="23" lean-forward="false" selection-start-line="42" selection-start-column="23" selection-end-line="42" selection-end-column="23" />
+        <state relative-caret-position="266">
+          <caret line="59" column="23" lean-forward="false" selection-start-line="59" selection-start-column="23" selection-end-line="59" selection-end-column="23" />
           <folding>
             <element signature="n#!!block;n#espacioLibre#0;n#!!block;n#jugar#0" expanded="false" />
           </folding>
