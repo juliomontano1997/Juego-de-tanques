@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fe086de3-8283-4929-aaf9-27316fdfdf4e" name="Default" comment=" se agrego imagenes y ya se mueve el tanque, pero no esta estable">
+    <list default="true" id="fe086de3-8283-4929-aaf9-27316fdfdf4e" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/imagenes/gameOver.jpg" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/script.js" afterPath="$PROJECT_DIR$/script.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -31,8 +31,8 @@
       <file leaf-file-name="script.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/script.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="354" column="9" lean-forward="true" selection-start-line="354" selection-start-column="9" selection-end-line="354" selection-end-column="9" />
+            <state relative-caret-position="399">
+              <caret line="449" column="63" lean-forward="false" selection-start-line="449" selection-start-column="63" selection-end-line="449" selection-end-column="63" />
               <folding>
                 <element signature="n#!!block;n#elemento_en_espacio#0" expanded="false" />
                 <element signature="n#!!block;n#mover_proyectil#0" expanded="false" />
@@ -216,7 +216,7 @@
       <workItem from="1510451058492" duration="17247000" />
       <workItem from="1510492087121" duration="2940000" />
       <workItem from="1510497680196" duration="16739000" />
-      <workItem from="1510516723308" duration="21069000" />
+      <workItem from="1510516723308" duration="21259000" />
     </task>
     <task id="LOCAL-00001" summary="cambio 1">
       <created>1510347379162</created>
@@ -281,11 +281,18 @@
       <option name="project" value="LOCAL" />
       <updated>1510497904301</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary=" Version mas estable">
+      <created>1510538823610</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1510538823610</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="79654000" />
+    <option name="totallyTimeSpent" value="79844000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="784" extended-state="6" />
@@ -329,7 +336,8 @@
     <MESSAGE value=" se agrego una imagen" />
     <MESSAGE value=" se agrego una imagen y calaberas" />
     <MESSAGE value=" se agrego imagenes y ya se mueve el tanque, pero no esta estable" />
-    <option name="LAST_COMMIT_MESSAGE" value=" se agrego imagenes y ya se mueve el tanque, pero no esta estable" />
+    <MESSAGE value=" Version mas estable" />
+    <option name="LAST_COMMIT_MESSAGE" value=" Version mas estable" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -576,8 +584,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/script.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="354" column="9" lean-forward="true" selection-start-line="354" selection-start-column="9" selection-end-line="354" selection-end-column="9" />
+        <state relative-caret-position="399">
+          <caret line="449" column="63" lean-forward="false" selection-start-line="449" selection-start-column="63" selection-end-line="449" selection-end-column="63" />
           <folding>
             <element signature="n#!!block;n#elemento_en_espacio#0" expanded="false" />
             <element signature="n#!!block;n#mover_proyectil#0" expanded="false" />

@@ -369,9 +369,7 @@ function Objetivo(x,  y , imagen, pantalla)
 function NuevoJuego()
 {
 
-    alert("Para moverse preciones las flechas");
-    alert("Para disparar precione x");
-    alert("Para reiniciar el juego presione el boton Iniciar");
+
     var jugando = true;
     var objetos_graf = [];
 
@@ -447,6 +445,9 @@ function NuevoJuego()
         ctx.drawImage(objetos_graf[i].imagen, objetos_graf[i].pos_x, objetos_graf[i].pos_y);
     }
     document.onkeydown = moverJugador;
+    alert("Para moverse preciones las flechas");
+    alert("Para disparar precione x");
+    alert("Para reiniciar el juego presione el boton Iniciar");
 }
 
 
