@@ -9,9 +9,13 @@
     <script src="script.js"></script>
     <script src="Concurrent.Thread.js"></script>
     <style>
-        #dibujo
+        body
         {
             background: darkslateblue;
+        }
+        #dibujo
+        {
+            background-image: url("imagenes/fondo.jpg");
         }
         section
         {
@@ -22,7 +26,15 @@
         }
         button
         {
-            position: fixed;
+            position:absolute;
+            top: 100px;
+            left: 200px;
+        }
+        #texto
+        {
+            position:absolute;
+            top: 50px;
+            left: 200px;
         }
     </style>
 
@@ -33,12 +45,12 @@
 </head>
 
 <body>
-    <section id="dibujo">
-        <canvas id="lienzo" width="600" height="600">
+<h2 id="texto">Tank Attack</h2>
+<button id="boton1" onclick="NuevoJuego()">Iniciar</button>
+<section id="dibujo">
+    <canvas id="lienzo" width="600" height="600">
 
-        </canvas>
-    </section>
-<button id="boton1" onclick="jugar()">Iniciar</button>
-    <div id="info"></div>
+    </canvas>
+</section>
 </body>
 </html>

@@ -1,222 +1,174 @@
-
-/*
-Notas:
-1) Lagasos en el tanque
-
-    Las imagenes cuando se cargan por primera ves no aparecen entonces
-    lo que sujiero es cargar todo para quede en cache y asi no tener los
-    lagasos que pega el mae cuando cambia de direccion (esque ahi carga la imagen).
-
- 2)
-
-  */
+var edificios_destruidos = 0;
 
 
+// -------------------------------------------  FUNCIONES EXTRA ------------------------------------------------
 
 
-
-
-
-function jugar()
+function espacioLibre (pos_x, pos_y, objetos)
 {
-    document.getElementById("boton1").hide=true;
-    var objetos_graf = [];
-    var lista_objetos_activos=[];
-    var enemigos = [];
-
-
-    var jugador = new Aliado(40,520, "imagenes/aliado/arriba.png");
-    lista_objetos_activos.push(jugador);
-    objetos_graf.push(jugador);
-
-    function crearBordes()
+    var cantidad = objetos.length;
+    for(i=0; i<cantidad; i++)
     {
-        for(i=0; i<15; i++)
+        if(pos_x === objetos[i].pos_x && pos_y===objetos[i].pos_y)
         {
-            var m11 = new Borde(i*40,0, "imagenes/estructuras/pared.jpg");
-            var m21 = new Borde(i*40,560, "imagenes/estructuras/pared.jpg");
-            objetos_graf.push(m11);
-            objetos_graf.push(m21);
-        }
-        for(i=1; i<14; i++)
-        {
-            var mi = i*40;
-            var m1 = new Borde(0, mi, "imagenes/estructuras/pared.jpg");
-            var m2 = new Borde(560, mi, "imagenes/estructuras/pared.jpg");
-            objetos_graf.push(m1);
-            objetos_graf.push(m2);
+            return false;
         }
     }
+    return true;
+}
 
-    function espacioLibre (pos_x, pos_y, objetos)
+function elemento_en_espacio (pos_x, pos_y, objetos)
+{
+    var cantidad = objetos.length;
+    for(i=0; i<cantidad; i++)
     {
-        var cantidad = objetos.length;
-        for(i=0; i<cantidad; i++)
+        if(pos_x === objetos[i].pos_x && pos_y===objetos[i].pos_y)
         {
-            if(pos_x === objetos[i].pos_x && pos_y===objetos[i].pos_y)
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    function crearMuros()
-    {
-        var contador = 20;
-
-        while (contador>0)
-        {
-            var x = Math.trunc(Math.random()*(14-1)+1)*40;
-            var y = Math.trunc(Math.random()*(14-1)+1)*40;
-            if(espacioLibre(x, y, objetos_graf))
-            {
-                var nuevo = new Muro(x,y,"imagenes/estructuras/pared.jpg");
-                objetos_graf.push(nuevo);
-                lista_objetos_activos.push(nuevo);
-                contador--;
-            }
+            return objetos[i];
         }
     }
+    return false;
+}
 
-    function crearObjetivos()
+function mover_proyectil(proyectil, direccion, objetos, ctx)
+{
+    if(direccion=== 37)
     {
-        var contador =5;
+        //proyectil.pos_x-=40;
+        console.log(espacioLibre(proyectil.pos_x-40,proyectil.pos_y, objetos));
 
-        while (contador>0)
+        while(espacioLibre(proyectil.pos_x-40,proyectil.pos_y, objetos))
         {
-            var x = Math.trunc(Math.random()*(14-1)+1)*40;
-            var y = Math.trunc(Math.random()*(14-1)+1)*40;
+            console.log("moviendose izquierda");
+            ctx.clearRect( proyectil.pos_x, proyectil.pos_y ,40,40);
+            proyectil.pos_x-=2;
+            ctx.drawImage(proyectil.imagen,proyectil.pos_x, proyectil.pos_y );
 
-            if(espacioLibre(x, y, objetos_graf))
-            {
-                var nuevo = new Objetivo(x,y,"imagenes/estructuras/objetivo.jpg");
-                objetos_graf.push(nuevo);
-                lista_objetos_activos.push(nuevo);
-                contador--;
-            }
+        }
+        var objeto_encontrado1 = elemento_en_espacio(proyectil.pos_x-40, proyectil.pos_y, objetos);
+        if(objeto_encontrado1 instanceof Enemigo || objeto_encontrado1 instanceof Muro || objeto_encontrado1 instanceof Objetivo)
+        {
+            objeto_encontrado1.disminuir_resistencia(ctx);
+            proyectil.estado = false;
+            proyectil.pos_x=0;
+            proyectil.pos_y=0;
+        }
+        else
+        {
+            ctx.clearRect( proyectil.pos_x, proyectil.pos_y ,40,40);
+            proyectil.estado = false;
+            proyectil.pos_x=0;
+            proyectil.pos_y=0;
         }
     }
 
 
-    function crearEnemigos()
+    else if(direccion===38)
     {
-        var enemigos = ["imagenes/enemigo1.png", "imagenes/enemigo2.png", "imagenes/enemigo1.png"];
-        for(i=0; i<10; i++)
+        //proyectil.pos_y -=40;
+        console.log(espacioLibre(proyectil.pos_x,proyectil.pos_y-40, objetos));
+        while(espacioLibre(proyectil.pos_x,proyectil.pos_y-40, objetos))
         {
-            var x = Math.trunc(Math.random()*(14-1)+1)*40;
-            var y = Math.trunc(Math.random()*(14-1)+1)*40;
-            if(espacioLibre(x, y, objetos_graf))
-            {
-                console.log("Creoo un objetivo");
-                var nuevo = new Enemigo(x,y,"imagenes/estructuras/pared.jpg",1);
-                objetos_graf.push(nuevo);
-                lista_objetos_activos.push(nuevo);
-                enemigos.push(nuevo);
-            }
-            else{
-                i--;
-            }
+            console.log("moviendose arriba");
+            ctx.clearRect( proyectil.pos_x, proyectil.pos_y ,40,40);
+            proyectil.pos_y -=2;
+            ctx.drawImage(proyectil.imagen,proyectil.pos_x, proyectil.pos_y );
+        }
+        var objeto_encontrado2 = elemento_en_espacio(proyectil.pos_x, proyectil.pos_y-40, objetos);
+        if(objeto_encontrado2 instanceof Enemigo || objeto_encontrado2 instanceof Muro || objeto_encontrado2 instanceof Objetivo)
+        {
+            objeto_encontrado2.disminuir_resistencia(ctx);
+            proyectil.estado = false;
+            proyectil.pos_x=0;
+            proyectil.pos_y=0;
+        }
+        else
+        {
+            ctx.clearRect( proyectil.pos_x, proyectil.pos_y ,40,40);
+            proyectil.estado = false;
+            proyectil.pos_x=0;
+            proyectil.pos_y=0;
+        }
+    }
+
+
+    else if(direccion===39)
+    {
+        //proyectil.pos_x +=40;
+        console.log(espacioLibre(proyectil.pos_x+40,proyectil.pos_y, objetos));
+        while(espacioLibre(proyectil.pos_x+40,proyectil.pos_y, objetos))
+        {
+            console.log("moviendose derecha");
+            ctx.clearRect( proyectil.pos_x, proyectil.pos_y ,40,40);
+            proyectil.pos_x +=2;
+            ctx.drawImage(proyectil.imagen,proyectil.pos_x, proyectil.pos_y );
+        }
+        var objeto_encontrado3 =elemento_en_espacio(proyectil.pos_x+40, proyectil.pos_y, objetos);
+        if(objeto_encontrado3 instanceof Enemigo || objeto_encontrado3 instanceof Muro || objeto_encontrado3 instanceof Objetivo)
+        {
+            objeto_encontrado3.disminuir_resistencia(ctx);
+            proyectil.estado = false;
+            proyectil.pos_x=0;
+            proyectil.pos_y=0;
+        }
+        else
+        {
+            ctx.clearRect( proyectil.pos_x, proyectil.pos_y ,40,40);
+            proyectil.estado = false;
+            proyectil.pos_x=0;
+            proyectil.pos_y=0;
         }
     }
 
 
 
 
-    // -------------------  Funciones principales -------------------------
-
-
-    var fondo = new Image();
-    fondo.src = "imagenes/fondo.jpg";
-    var cnv;
-    var ctx;
-    cnv = document.getElementById('lienzo');
-    ctx = cnv.getContext('2d');
-
-    document.onkeydown = moverJugador;
-    crearMuros();
-    crearBordes();
-    crearObjetivos();
 
 
 
-    function limpieza()
+    else if(direccion===40)
     {
-        var tam = objetos.length;
-        for(i=0; i<tam; i++)
+        //proyectil.pos_y +=40;
+        console.log(espacioLibre(proyectil.pos_x,proyectil.pos_y+40, objetos));
+        while(espacioLibre(proyectil.pos_x,proyectil.pos_y+40, objetos))
         {
-            ctx.drawImage(objetos[i].imagen, objetos[i].pos_x, objetos[i].pos_y );
+            console.log("moviendose abajo");
+            ctx.clearRect( proyectil.pos_x, proyectil.pos_y ,40,40);
+            proyectil.pos_y +=2;
+            ctx.drawImage(proyectil.imagen,proyectil.pos_x, proyectil.pos_y );
         }
-
-    }
-    function anim(objetos)
-    {
-        bandera = true;
-        while (bandera)
+        var objeto_encontrado4 = elemento_en_espacio(proyectil.pos_x, proyectil.pos_y+40, objetos);
+        if(objeto_encontrado4 instanceof Enemigo || objeto_encontrado4 instanceof Muro || objeto_encontrado4 instanceof Objetivo)
         {
-            console.log(objetos);
-            ctx.clearRect(0, 0, 600, 600);
-            ctx.drawImage(fondo,0, 0);
-            var tam = objetos.length;
-            for(i=0; i<tam; i++)
-            {
-                ctx.drawImage(objetos[i].imagen, objetos[i].pos_x, objetos[i].pos_y );
-            }
+            objeto_encontrado4.disminuir_resistencia(ctx);
+            proyectil.estado = false;
+            proyectil.pos_x=0;
+            proyectil.pos_y=0;
+        }
+        else
+        {
+            ctx.clearRect( proyectil.pos_x, proyectil.pos_y ,40,40);
+            proyectil.estado = false;
+            proyectil.pos_x=0;
+            proyectil.pos_y=0;
         }
     }
-
-    function  moverJugador(tecla)
-    {
-        jugador.mover(tecla.keyCode, objetos_graf);
-    }
-    anim(objetos_graf);
 }
 
 
-
-
-//var elementoEliminado = frutas.splice(pos, 1); // así es como se elimina un elemento
-
-
+// ------------------------------------------------ CLASES ------------------------------------------
 
 function Objetos_animados(x,y,dir_imagen)
 {
-
     this.imagen = new Image();
     this.imagen.src = dir_imagen;
     this.pos_x= x;
     this.pos_y= y;
+    this.pos_x2= x;
+    this.pos_y2= y;
     this.estado=true;
-
-
-    this.espacioLibre = function (pos_x, pos_y, objetos)
-    {
-        var cantidad = objetos.length;
-        for(i=0; i<cantidad; i++)
-        {
-            if(pos_x === objetos[i].pos_x && pos_y===objetos[i].pos_y)
-            {
-                return false;
-            }
-        }
-        return true;
-    };
-
-    this.elemento_en_espacio = function (pos_x, pos_y, objetos)
-    {
-        var cantidad = objetos.length;
-        for(i=0; i<cantidad; i++)
-        {
-            if(pos_x === objetos[i].pos_x && pos_y===objetos[i].pos_y)
-            {
-                return objetos[i];
-            }
-        }
-        return false;
-    };
+    this.huboCambio = false;
 }
-
-
 
 
 
@@ -226,62 +178,7 @@ function Tanque(x,y,dir_imagen,vida)
     this.vida=vida;
     this.direccion=40;
     this.imagen_proyectil="";
-
-    this.mover = function (direccion, objetos)
-    {
-        if(direccion===39)
-        {
-            this.imagen.src = this.imagenes[1];
-            this.imagen_proyectil ="imagenes/proyectiles/derecha.png";
-            this.direccion=direccion;
-            if(this.pos_x<520 && this.espacioLibre(this.pos_x+40, this.pos_y, objetos))
-            {
-                this.pos_x+= 40;
-            }
-        }
-        else if(direccion===37 )
-        {
-            this.imagen.src = this.imagenes[0];
-            this.imagen_proyectil="imagenes/proyectiles/izquierda.png";
-            this.direccion=direccion;
-            if(this.pos_x>40 && this.espacioLibre(this.pos_x-40, this.pos_y, objetos))
-            {
-                this.pos_x-= 40;
-            }
-        }
-        else if(direccion===38)
-        {
-            this.imagen.src = this.imagenes[2];
-            this.imagen_proyectil="imagenes/proyectiles/arriba.png";
-            this.direccion=direccion;
-            if(this.pos_y>40 && this.espacioLibre(this.pos_x, this.pos_y-40, objetos))
-            {
-                this.pos_y-=40;
-            }
-
-        }
-        else if (direccion === 40)
-        {
-            this.imagen_proyectil ="imagenes/proyectiles/abajo.png";
-            this.imagen.src = this.imagenes[3];
-            this.direccion=direccion;
-            if(this.pos_y<520 && this.espacioLibre(this.pos_x, this.pos_y+40, objetos))
-            {
-                this.pos_y+=40;
-            }
-        }
-        else if(direccion===88)
-        {
-            this.disparar(objetos);
-        }
-    };
-
-    this.disparar = function (objetos)
-    {
-        console.log("Disparando");
-        var proyectil = new ProyectilAliado(this.pos_x,this.pos_y,this.direccion, this.imagen_proyectil, objetos);
-        objetos.push(proyectil);
-    };
+    this.objetivosDestruidos=0;
 
 
     this.disminuir_resistencia = function ()
@@ -294,60 +191,111 @@ function Tanque(x,y,dir_imagen,vida)
     }
 }
 
+
 function Enemigo(x,y,dir_imagen)
 {
     Tanque.call(this, x,y,dir_imagen,1);
 }
 
-function Aliado (x,y,dir_imagen)
+function Aliado (x,y)
 {
     this.imagenes = [ "imagenes/aliado/izquierda.png",  "imagenes/aliado/derecha.png",  "imagenes/aliado/arriba.png",  "imagenes/aliado/abajo.png"];
-    Tanque.call(this, x,y,dir_imagen,3)
+    Tanque.call(this, x,y,this.imagenes[2],3)
+
+    this.accion = function (direccion, objetos, ctx)
+    {
+
+        function borrar_rastro(obj)
+        {
+            obj.huboCambio =true;
+            ctx.clearRect( obj.pos_x, obj.pos_y ,40,40);
+        }
+        if(direccion===39)
+        {
+            console.log("Derecha");
+            this.imagen.src = this.imagenes[1];
+            this.imagen_proyectil ="imagenes/proyectiles/derecha.png";
+            this.direccion=direccion;
+            if(this.pos_x<520 && espacioLibre(this.pos_x+40, this.pos_y, objetos))
+            {
+                borrar_rastro(this);
+                this.pos_x+= 40;
+            }
+            ctx.drawImage(this.imagen,this.pos_x, this.pos_y );
+        }
+        else if(direccion===37 )
+        {
+            console.log("Izquierda");
+            this.imagen.src = this.imagenes[0];
+            this.imagen_proyectil="imagenes/proyectiles/izquierda.png";
+            this.direccion=direccion;
+            if(this.pos_x>40 && espacioLibre(this.pos_x-40, this.pos_y, objetos))
+            {
+                borrar_rastro(this);
+                this.pos_x-= 40;
+            }
+            ctx.drawImage(this.imagen,this.pos_x, this.pos_y );
+        }
+        else if(direccion===38)
+        {
+            console.log("Arriba");
+            this.imagen.src = this.imagenes[2];
+            this.imagen_proyectil="imagenes/proyectiles/arriba.png";
+            this.direccion=direccion;
+            if(this.pos_y>40 && espacioLibre(this.pos_x, this.pos_y-40, objetos))
+            {
+                borrar_rastro(this);
+                this.pos_y-=40;
+            }
+            ctx.drawImage(this.imagen,this.pos_x, this.pos_y );
+
+        }
+        else if (direccion === 40)
+        {
+            console.log("Abajo");
+            this.imagen_proyectil ="imagenes/proyectiles/abajo.png";
+            this.imagen.src = this.imagenes[3];
+            this.direccion=direccion;
+            if(this.pos_y<520 && espacioLibre(this.pos_x, this.pos_y+40, objetos))
+            {
+                borrar_rastro(this);
+                this.pos_y+=40;
+            }
+            ctx.drawImage(this.imagen,this.pos_x, this.pos_y );
+        }
+
+
+        else if(direccion===88)
+        {
+            this.disparar(objetos, ctx);
+            ctx.drawImage(this.imagen, this.pos_x, this.pos_y);
+        }
+    };
+
+    this.disparar = function (objetos, pantalla)
+    {
+        var nuevo_proyectil = new ProyectilAliado(this.pos_x, this.pos_y, this.imagen_proyectil);
+        objetos.push(nuevo_proyectil);
+        Concurrent.Thread.create(mover_proyectil,nuevo_proyectil, this.direccion, objetos,pantalla);
+    };
 }
 
-function ProyectilAliado(x,y,direccion,imagen, objetos)
+function ProyectilAliado(x,y,imagen)
 {
-    Objetos_animados.call(this, x,y, imagen);
-    if(direccion=== 37)
-    {
-        while(this.espacioLibre(x, y, objetos))
-        {
-            this.pos_x-=40;
-        }
-    }
-    else if(direccion===38)
-    {
-        while(this.espacioLibre(x, y, objetos))
-        {
-            this.pos_y -=40;
-        }
-        var objeto_encontrado = this.elemento_en_espacio(this.pos_x, this.pos_y, objetos);
-        if(objeto_encontrado instanceof Enemigo || objeto_encontrado instanceof Muro || objeto_encontrado instanceof Objetivo)
-        {
-            objeto_encontrado.disminuir_resistencia();
-        }
-    }
-    else if(direccion===39)
-    {
-        while(this.espacioLibre(x, y, objetos))
-        {
-            this.pos_x +=40;
-        }
-    }
-    else if(direccion===40)
-    {
-        while(this.espacioLibre(x, y, objetos))
-        {
-            this.pos_y +=40;
-        }
-    }
+
+    this.imagen = new Image();
+    this.imagen.src = imagen;
+    this.pos_x=x;
+    this.pos_y=y;
+    this.pos_x2=x;
+    this.pos_y2=y;
+    this.estado = true;
 }
-
-
 
 
 function Objetos_inanimados(x,y,imagen)
 {
+    this.huboCambio = false;
     this.pos_x=x;
     this.pos_y=y;
     this.estado = true;
@@ -355,41 +303,150 @@ function Objetos_inanimados(x,y,imagen)
     this.imagen.src = imagen;
 }
 
-
-function Borde(x,  y , imagen)
+function Borde(x,y)
 {
-    Objetos_inanimados.call(this, x,y, imagen);
+    Objetos_inanimados.call(this, x,y, "imagenes/estructuras/pared.jpg");
 }
 
-
-
-function Muro(x,y, imagen)
+function Muro(x,y)
 {
-    Objetos_inanimados.call(this, x,y, imagen);
+    Objetos_inanimados.call(this, x,y,"imagenes/estructuras/pared.jpg");
     this.resistencia = 2;
 
-    this.disminuir_resistencia = function ()
+    this.disminuir_resistencia = function (pantalla)
     {
+        console.log("REsistencia disminuida");
         this.resistencia --;
         if (this.resistencia===0)
         {
+            pantalla.clearRect( this.pos_x, this.pos_y ,40,40);
             this.estado=false;
+            this.pos_x=0;
+            this.pos_y=0;
+        }
+        else
+        {
+            pantalla.drawImage(this.imagen, this.pos_x, this.pos_y);
         }
     }
 }
 
-function Objetivo(x,  y , imagen)
+
+function Objetivo(x,  y , imagen, pantalla)
 {
     Objetos_inanimados.call(this, x,y, imagen);
     this.resistencia = 3;
-    this.disminuir_resistencia = function ()
+    this.pantalla = pantalla;
+
+
+    this.disminuir_resistencia = function (pantalla)
     {
+        console.log("REsistencia disminuida");
         this.resistencia --;
         if (this.resistencia===0)
         {
+            pantalla.clearRect( this.pos_x, this.pos_y ,40,40);
+            this.pos_x=0;
+            this.pos_y=0;
             this.estado=false;
+            edificios_destruidos++;
+        }
+        else
+        {
+            pantalla.drawImage(this.imagen, this.pos_x, this.pos_y);
         }
     }
+}
+
+
+
+
+
+
+
+
+
+function NuevoJuego()
+{
+
+    alert("Para moverse preciones las flechas");
+    alert("Para disparar precione x");
+    alert("Para reiniciar el juego presione el boton Iniciar");
+    var jugando = true;
+    var objetos_graf = [];
+
+    var cnv = document.getElementById('lienzo');
+    var ctx = cnv.getContext('2d');
+    ctx.clearRect(0,0,600,600);
+    var jugador = new Aliado(40,520);
+    objetos_graf.push(jugador);
+    // Crea los muros que no se pueden destruir
+    function crearBordes()
+    {
+        for(i=0; i<15; i++)
+        {
+            var m11 = new Borde(i*40,0);
+            var m21 = new Borde(i*40,560);
+            objetos_graf.push(m11);
+            objetos_graf.push(m21);
+        }
+        for(i=1; i<14; i++)
+        {
+            var mi = i*40;
+            var m1 = new Borde(0, mi);
+            var m2 = new Borde(560, mi);
+            objetos_graf.push(m1);
+            objetos_graf.push(m2);
+        }
+    }
+    // Crea los muros internos que si se pueden destruir
+    function crearMuros()
+    {
+        var contador = 20;
+        while (contador>0)
+        {
+            var x = Math.trunc(Math.random()*(14-1)+1)*40;
+            var y = Math.trunc(Math.random()*(14-1)+1)*40;
+            if(espacioLibre(x, y, objetos_graf))
+            {
+                var nuevo = new Muro(x,y);
+                objetos_graf.push(nuevo);
+                contador--;
+            }
+        }
+    }
+    // Crea los objetivos los cuales se pueden destruir con los disparos
+    function crearObjetivos()
+    {
+        var contador =5;
+        while (contador>0)
+        {
+            var x = Math.trunc(Math.random()*(14-1)+1)*40;
+            var y = Math.trunc(Math.random()*(14-1)+1)*40;
+            if(espacioLibre(x, y, objetos_graf))
+            {
+                // se cambia la imagen en ramdom 1, 2
+                var nuevo = new Objetivo(x,y,"imagenes/estructuras/objetivo.jpg");
+                objetos_graf.push(nuevo);
+                contador--;
+            }
+        }
+    }
+
+    crearMuros();
+    crearBordes();
+    crearObjetivos();
+    function  moverJugador(tecla)
+    {
+        jugador.accion(tecla.keyCode, objetos_graf, ctx);
+    }
+
+    for(i=0; i<objetos_graf.length; i++)
+    {
+        ctx.clearRect( objetos_graf[i].pos_x2, objetos_graf[i].pos_y2 ,40,40);
+        ctx.drawImage(objetos_graf[i].imagen, objetos_graf[i].pos_x, objetos_graf[i].pos_y);
+    }
+    document.onkeydown = moverJugador;
 }
 
 
